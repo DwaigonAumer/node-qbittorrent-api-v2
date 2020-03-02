@@ -1,4 +1,5 @@
 const https = require('https')
+const http = require('http')
 
 const ENDPOINT = '/api/v2'
 
@@ -1298,8 +1299,10 @@ function performRequest(opt, cookie, path, parameters) {
 		}
 	}
 
+	const performer = options.protocol === 'https' ? https : http;
+
 	return new Promise((resolve, reject) => {
-		const req = https.request(options, res => {
+		const req = performer.request(options, res => {
 			let data = []
 
 			res.on('data', chunk => data.push(chunk))
